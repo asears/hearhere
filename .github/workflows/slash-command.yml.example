@@ -1,0 +1,42 @@
+name: GenAI PR Analysis
+on:
+  issue_comment:
+    types: [created]
+
+# Permissions needed for PR comments and GitHub models
+permissions:
+  contents: read
+  pull-requests: write
+  models: read
+
+jobs:
+  analyze-pr:
+    if: ${{ github.event.issue.pull_request && github.event.comment.body == '/ai' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Need full history for accurate diff
+          persist-credentials: false
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Fetch main branch
+        run: |
+          git fetch origin main:main
+        
+      - name: Install GenAIScript
+        run: npm install -g genaiscript
+
+      - name: Run PR analysis
+        run: |
+          npx --yes genaiscript run pr-analyzer \
+            --provider github \
+            --pull-request-comment "pr-analysis"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
