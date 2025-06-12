@@ -52,6 +52,164 @@
   - GraphRAG implementation
   - Knowledge graph management
 
+## Azure AI Foundry Integration
+
+### 1. Model Context Protocol (MCP)
+
+- **Server Integration**
+  - Native MCP server support
+  - Standardized data access patterns
+  - Unified query interface
+  - Custom handler support
+
+```sql
+-- Example MCP handler registration
+CREATE FUNCTION register_mcp_handler(
+    handler_name TEXT,
+    handler_type TEXT,
+    handler_config JSONB
+)
+RETURNS BOOLEAN
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    -- Handler registration logic
+    RETURN TRUE;
+END;
+$$;
+```
+
+### 2. Bot Service Integration
+
+- **State Management**
+  - Conversation state storage
+  - User profile management
+  - Session tracking
+  - Turn context persistence
+
+```sql
+-- Example bot state schema
+CREATE TABLE bot_conversation_state (
+    conversation_id UUID PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    state_data JSONB,
+    last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    vector_state vector(1536)  -- For semantic search
+);
+
+-- Example state update
+CREATE FUNCTION update_bot_state(
+    p_conversation_id UUID,
+    p_state_data JSONB
+)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO bot_conversation_state (conversation_id, user_id, state_data)
+    VALUES (p_conversation_id, p_user_id, p_state_data)
+    ON CONFLICT (conversation_id)
+    DO UPDATE SET 
+        state_data = p_state_data,
+        last_modified = CURRENT_TIMESTAMP;
+END;
+$$;
+```
+
+### 3. Agent Orchestration
+
+- **Multi-Agent Management**
+  - Agent state tracking
+  - Inter-agent communication
+  - Task delegation
+  - Resource allocation
+
+```sql
+-- Example agent orchestration schema
+CREATE TABLE agent_tasks (
+    task_id UUID PRIMARY KEY,
+    agent_id TEXT NOT NULL,
+    task_type TEXT NOT NULL,
+    task_data JSONB,
+    status TEXT DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP,
+    vector_context vector(1536)  -- For semantic task routing
+);
+
+-- Example semantic task routing
+CREATE FUNCTION route_task_to_agent(
+    p_task_description TEXT,
+    p_task_data JSONB
+)
+RETURNS TEXT
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_agent_id TEXT;
+BEGIN
+    SELECT agent_id 
+    FROM agent_capabilities
+    WHERE semantic.is_true(
+        capability_description,
+        p_task_description,
+        model => 'gpt-4.1'
+    )
+    LIMIT 1
+    INTO v_agent_id;
+    
+    RETURN v_agent_id;
+END;
+$$;
+```
+
+### 4. Knowledge Integration
+
+- **Semantic Knowledge Base**
+  - Domain knowledge storage
+  - Context management
+  - Dynamic learning
+  - Knowledge graph integration
+
+```sql
+-- Example knowledge base schema
+CREATE TABLE knowledge_base (
+    knowledge_id UUID PRIMARY KEY,
+    content TEXT NOT NULL,
+    context_vector vector(1536),
+    metadata JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Example semantic knowledge retrieval
+CREATE FUNCTION get_relevant_knowledge(
+    p_query TEXT,
+    p_top_k INTEGER DEFAULT 5
+)
+RETURNS TABLE (
+    knowledge_id UUID,
+    content TEXT,
+    relevance_score FLOAT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    WITH query_embedding AS (
+        SELECT semantic.embed(p_query) AS query_vector
+    )
+    SELECT 
+        k.knowledge_id,
+        k.content,
+        vector_similarity(k.context_vector, q.query_vector) as score
+    FROM knowledge_base k
+    CROSS JOIN query_embedding q
+    ORDER BY score DESC
+    LIMIT p_top_k;
+END;
+$$;
+```
+
 ## Advanced Technical Features
 
 ### 1. pgVector Implementation

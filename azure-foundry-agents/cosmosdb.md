@@ -141,6 +141,207 @@ def store_agent_memory(conversation_id, memory_data):
    - Monitor usage metrics
    - Implement cost optimization
 
+## Azure AI Foundry Integration
+
+### 1. Model Context Protocol Integration
+
+1. **MCP Server Configuration**
+   ```json
+   {
+     "mcp": {
+       "endpoint": "https://your-cosmosdb-account.documents.azure.com",
+       "databaseId": "AgentDB",
+       "containerId": "Conversations",
+       "partitionKey": "/sessionId"
+     }
+   }
+   ```
+
+2. **Data Access Patterns**
+   ```javascript
+   // Example MCP handler for conversation history
+   async function handleConversationQuery(context) {
+     const container = await getContainer();
+     const query = {
+       query: "SELECT * FROM c WHERE c.sessionId = @sessionId",
+       parameters: [
+         { name: "@sessionId", value: context.sessionId }
+       ]
+     };
+     return await container.items.query(query).fetchAll();
+   }
+   ```
+
+### 2. Bot Service Integration
+
+1. **State Management**
+   ```javascript
+   // Example Bot Framework state storage
+   class CosmosDBStorage {
+     async write(changes) {
+       const container = await this.getContainer();
+       const batch = container.batch();
+       
+       for (const [key, change] of Object.entries(changes)) {
+         batch.upsertItem({
+           id: key,
+           state: change,
+           timestamp: new Date().toISOString()
+         });
+       }
+       
+       await batch.execute();
+     }
+   }
+   ```
+
+2. **Turn Context Storage**
+   ```javascript
+   // Example turn context persistence
+   class CosmosTurnContext {
+     async saveContext(context) {
+       const container = await this.getContainer();
+       await container.items.upsert({
+         id: context.activity.id,
+         channelId: context.activity.channelId,
+         conversation: context.activity.conversation,
+         timestamp: new Date().toISOString(),
+         turnData: context.turnState.get('turnData')
+       });
+     }
+   }
+   ```
+
+### 3. Agent Orchestration
+
+1. **Multi-Agent Coordination**
+   ```javascript
+   // Example agent task distribution
+   class AgentOrchestrator {
+     async distributeTask(task) {
+       const container = await this.getContainer();
+       
+       // Create task record
+       const taskRecord = {
+         id: uuidv4(),
+         type: task.type,
+         status: 'pending',
+         created: new Date().toISOString(),
+         vectors: {
+           description: await this.getEmbedding(task.description)
+         }
+       };
+       
+       await container.items.create(taskRecord);
+       
+       // Find suitable agent
+       const query = {
+         query: "SELECT * FROM c WHERE c.type = 'agent' AND c.status = 'available'"
+       };
+       
+       const { resources: agents } = await container.items
+         .query(query)
+         .fetchAll();
+         
+       return await this.assignTask(agents[0], taskRecord);
+     }
+   }
+   ```
+
+2. **Agent State Management**
+   ```javascript
+   // Example agent state tracking
+   class AgentStateManager {
+     async updateAgentState(agentId, state) {
+       const container = await this.getContainer();
+       const { resource: agent } = await container.item(agentId, agentId).read();
+       
+       agent.state = state;
+       agent.lastUpdated = new Date().toISOString();
+       
+       await container.item(agentId, agentId).replace(agent);
+     }
+   }
+   ```
+
+### 4. Knowledge Management
+
+1. **Vector-Enabled Knowledge Base**
+   ```javascript
+   // Example knowledge base schema
+   const knowledgeSchema = {
+     id: "string",
+     content: "string",
+     embedding: "vector<1536>",
+     metadata: {
+       source: "string",
+       timestamp: "string",
+       confidence: "number"
+     }
+   };
+   ```
+
+2. **Semantic Search Integration**
+   ```javascript
+   // Example semantic search implementation
+   class SemanticKnowledgeBase {
+     async findRelevantKnowledge(query) {
+       const queryEmbedding = await this.getEmbedding(query);
+       const container = await this.getContainer();
+       
+       const searchQuery = {
+         vector: queryEmbedding,
+         k: 5,
+         field: "embedding"
+       };
+       
+       return await container.items
+         .vectorSearch(searchQuery)
+         .fetchAll();
+     }
+   }
+   ```
+
+### 5. Monitoring and Analytics
+
+1. **Agent Performance Tracking**
+   ```javascript
+   // Example performance monitoring
+   class AgentAnalytics {
+     async trackAgentMetrics(agentId, metrics) {
+       const container = await this.getContainer();
+       await container.items.create({
+         id: uuidv4(),
+         agentId: agentId,
+         metrics: metrics,
+         timestamp: new Date().toISOString()
+       });
+     }
+   }
+   ```
+
+2. **System Health Monitoring**
+   ```javascript
+   // Example health check implementation
+   class SystemHealth {
+     async checkSystemHealth() {
+       const container = await this.getContainer();
+       const metrics = {
+         agentCount: await this.getActiveAgentCount(),
+         pendingTasks: await this.getPendingTaskCount(),
+         averageResponseTime: await this.getAverageResponseTime()
+       };
+       
+       await container.items.create({
+         id: uuidv4(),
+         type: 'health_check',
+         metrics: metrics,
+         timestamp: new Date().toISOString()
+       });
+     }
+   }
+   ```
+
 ## References
 
 - [Azure AI Agent Service Documentation](https://learn.microsoft.com/en-us/azure/ai-services/agents/overview)
