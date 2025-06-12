@@ -129,7 +129,7 @@ As we face new computing challenges – quantum systems, neural interfaces, arti
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

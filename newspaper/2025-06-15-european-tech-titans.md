@@ -228,7 +228,7 @@ European technology innovation continues to provide an alternative model focused
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

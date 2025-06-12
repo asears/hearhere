@@ -238,7 +238,7 @@ Science fiction continues to serve as technology's dream factory, inspiring new 
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

@@ -445,7 +445,7 @@ These innovation centers represent more than just economic engines—they are la
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

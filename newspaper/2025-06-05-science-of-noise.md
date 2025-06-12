@@ -205,7 +205,7 @@ Understanding noise's role in natural and artificial systems opens new possibili
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

@@ -176,7 +176,7 @@ Moore's Law has been more than a technical observation—it has been a driving f
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

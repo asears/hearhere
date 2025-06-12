@@ -223,7 +223,7 @@ Genetic engineering opens unprecedented possibilities for human enhancement.
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

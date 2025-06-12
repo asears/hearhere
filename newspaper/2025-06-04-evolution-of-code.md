@@ -240,7 +240,7 @@ As AI continues to evolve, programming languages adapt to bridge the gap between
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

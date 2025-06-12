@@ -213,7 +213,7 @@ The legacy of Bell Labs, IBM Research, and Xerox PARC continues to influence how
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

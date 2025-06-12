@@ -231,7 +231,7 @@ The future of work is increasingly individual, creative, and technology-enabled,
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

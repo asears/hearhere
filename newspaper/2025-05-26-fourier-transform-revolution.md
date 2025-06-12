@@ -138,7 +138,7 @@ The story of the Fourier transform demonstrates how pure mathematics can lead to
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

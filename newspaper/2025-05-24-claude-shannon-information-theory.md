@@ -248,7 +248,7 @@ As we move toward more advanced forms of computation and communication, Shannon'
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

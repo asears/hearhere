@@ -149,7 +149,7 @@ As we move toward direct neural communication, the principles established by Fle
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

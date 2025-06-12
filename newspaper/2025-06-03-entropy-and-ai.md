@@ -237,7 +237,7 @@ The role of entropy in AI continues to evolve, promising new breakthroughs in ef
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

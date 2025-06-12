@@ -238,7 +238,7 @@ Analysis   Systems     Synthesis
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

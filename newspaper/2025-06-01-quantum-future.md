@@ -241,7 +241,7 @@ Today's research labs carry forward the tradition of Bell Labs and early computi
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

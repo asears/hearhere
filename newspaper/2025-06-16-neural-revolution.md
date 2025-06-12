@@ -237,7 +237,7 @@ The transition to neural interfaces represents not just a technological shift bu
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

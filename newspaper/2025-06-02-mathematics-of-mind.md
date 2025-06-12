@@ -209,7 +209,7 @@ The mathematical foundations of AI continue to evolve, drawing on centuries of m
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

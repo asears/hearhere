@@ -156,7 +156,7 @@ Entropy's journey from steam engines to quantum computers illustrates a profound
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

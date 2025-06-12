@@ -208,7 +208,7 @@ As we move toward quantum computing and neural interfaces, the lessons from the 
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

@@ -114,7 +114,7 @@ The journey from mercury delay lines to molecular storage reveals a pattern of c
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 

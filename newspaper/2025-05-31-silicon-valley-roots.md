@@ -207,7 +207,7 @@ Silicon Valley's evolution from research hub to global technology center demonst
 
 ---
 
-*Article © 2025 Compute Magazine. All rights reserved.*
+
 
 </div>
 
