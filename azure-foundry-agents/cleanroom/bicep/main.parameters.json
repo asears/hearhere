@@ -1,0 +1,28 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "cleanRoomName": {
+            "value": "aifoundrydev"
+        },
+        "location": {
+            "value": "eastus"
+        },
+        "tags": {
+            "value": {
+                "environment": "dev",
+                "purpose": "cleanroom",
+                "project": "ai-foundry"
+            }
+        },
+        "containerInstancesSku": {
+            "value": "Confidential"
+        },
+        "systemAssignedIdentity": {
+            "value": true
+        },
+        "userAssignedIdentityId": {
+            "value": ""
+        }
+    }
+}
